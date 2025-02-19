@@ -102,7 +102,7 @@ def main():
     initialize_session_state()
 
     st.title("📝 YouTube Transcript Analyzer with Gemini AI")
-    st.markdown("**Designed and deployed by Nathan Rossow, Burst Software**")
+    st.markdown("**Designed and deployed by Nathan Rossow at Burst Software**")
     st.markdown("Enter a YouTube video URL and your Google AI API key to get the transcript and analyze it using Gemini AI.")
 
     # Input fields - use session state to persist values
