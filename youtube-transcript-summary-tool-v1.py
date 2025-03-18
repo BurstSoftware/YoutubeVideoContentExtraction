@@ -40,7 +40,7 @@ def extract_video_id(url: str) -> str:
     return None
 
 
-def setup_gemini(api_key: str, model_name='gemini-pro'):
+def setup_gemini(api_key: str, model_name='gemini-2.0-pro-02-05'):  #  Use the experimental model
     """Configure Gemini AI with API key and handle model availability."""
     try:
         genai.configure(api_key=api_key)
@@ -66,7 +66,7 @@ def analyze_with_gemini(model, text: str, task: str = "summarize") -> str:
         return ""  # Or some other appropriate default
 
     try:
-        prompt = f"Please {task} the following transcript concisely but comprehensively: {text[:30000]}"
+        prompt = f"Please {task} the following transcript concisely but comprehensively: {text[:30000]}"  #Gemini 2.0 pro supports 32k tokens
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
@@ -82,7 +82,7 @@ def initialize_session_state():
         'analysis': None,
         'video_id': None,
         'analysis_type': None,
-        'model_name': 'gemini-pro', # Default model
+        'model_name': 'gemini-2.0-pro-02-05', # Default to the experimental model
         'url': '',
         'api_key': '',
         'has_data': False,
@@ -136,11 +136,12 @@ def main():
     st.session_state.url = url
     st.session_state.api_key = api_key
 
-    # Model selection
+    # Model selection -  Include the experimental model in the selection.
     model_name = st.selectbox(
         "Choose Gemini Model",
-        ["gemini-pro", "gemini-1.0-pro-latest", "gemini-1.5-pro-latest"], # Add other options as available
-        index=["gemini-pro", "gemini-1.0-pro-latest", "gemini-1.5-pro-latest"].index(st.session_state.model_name) if st.session_state.model_name in ["gemini-pro", "gemini-1.0-pro-latest", "gemini-1.5-pro-latest"] else 0
+        ["gemini-pro", "gemini-1.0-pro-latest", "gemini-1.5-pro-latest", "gemini-2.0-pro-02-05"],
+        index=["gemini-pro", "gemini-1.0-pro-latest", "gemini-1.5-pro-latest", "gemini-2.0-pro-02-05"].index(st.session_state.model_name)
+        if st.session_state.model_name in ["gemini-pro", "gemini-1.0-pro-latest", "gemini-1.5-pro-latest", "gemini-2.0-pro-02-05"] else 0
     )
     st.session_state.model_name = model_name # Update session state
 
